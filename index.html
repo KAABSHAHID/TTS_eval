@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TTS Evaluation</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+      input[type="number"] {
+        width: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>TTS Evaluation</h2>
+    <form id="evalForm">
+      <table>
+        <tr>
+          <th>GT Audio</th>
+          <th>Channel 1</th>
+          <th>Channel 2</th>
+        </tr>
+
+        <!-- 5 rows -->
+        <tr>
+          <td>
+            <audio controls src="audio/gt1.wav"></audio><br />
+            Score: <input type="number" min="0" max="10" name="gt1" />
+          </td>
+          <td>
+            <audio controls src="audio/ch1_1.wav"></audio><br />
+            Score: <input type="number" min="0" max="10" name="ch1_1" />
+          </td>
+          <td>
+            <audio controls src="audio/ch2_1.wav"></audio><br />
+            Score: <input type="number" min="0" max="10" name="ch2_1" />
+          </td>
+        </tr>
+
+        <!-- repeat rows -->
+        <tr>
+          <td>
+            <audio controls src="audio/gt2.wav"></audio><br />
+            <input type="number" min="0" max="10" name="gt2" />
+          </td>
+          <td>
+            <audio controls src="audio/ch1_2.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch1_2" />
+          </td>
+          <td>
+            <audio controls src="audio/ch2_2.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch2_2" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <audio controls src="audio/gt3.wav"></audio><br />
+            <input type="number" min="0" max="10" name="gt3" />
+          </td>
+          <td>
+            <audio controls src="audio/ch1_3.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch1_3" />
+          </td>
+          <td>
+            <audio controls src="audio/ch2_3.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch2_3" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <audio controls src="audio/gt4.wav"></audio><br />
+            <input type="number" min="0" max="10" name="gt4" />
+          </td>
+          <td>
+            <audio controls src="audio/ch1_4.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch1_4" />
+          </td>
+          <td>
+            <audio controls src="audio/ch2_4.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch2_4" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <audio controls src="audio/gt5.wav"></audio><br />
+            <input type="number" min="0" max="10" name="gt5" />
+          </td>
+          <td>
+            <audio controls src="audio/ch1_5.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch1_5" />
+          </td>
+          <td>
+            <audio controls src="audio/ch2_5.wav"></audio><br />
+            <input type="number" min="0" max="10" name="ch2_5" />
+          </td>
+        </tr>
+      </table>
+      <br />
+      <button type="button" onclick="downloadJSON()">Download Results</button>
+    </form>
+
+    <script>
+      function downloadJSON() {
+        const form = document.getElementById("evalForm");
+        const data = {};
+        for (let element of form.elements) {
+          if (element.type === "number") {
+            data[element.name] = element.value;
+          }
+        }
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "tts_eval_results.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    </script>
+  </body>
+</html>
